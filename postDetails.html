@@ -381,16 +381,18 @@
           "body": sendCommentInput,
         }
 
-
+        toggleLoader(true);
         axios.post(`${baseUrl}/posts/${postId}/comments`, params , {
           headers: {
             'Authorization': `Bearer ${token}`,
           }
         })
         .then((response) => {
+          toggleLoader(false);
+
           showAlert("Your comment has been created successfully", "success");
           
-          // hideAlert();
+          hideAlert();
           ShowPostDetails(postId);
         })
         .catch((error) => {
@@ -406,8 +408,10 @@
 
     // ========== Show post details ==========
     function ShowPostDetails(postId) {
+      toggleLoader(true);
       axios.get(`${baseUrl}/posts/${postId}`)
       .then(function (response) {
+          toggleLoader(false);
         // handle success
           let postContainer = document.getElementById("post");
           let post = response.data.data;
